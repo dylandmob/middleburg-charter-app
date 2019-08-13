@@ -1,26 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { Container, Image, Menu } from "semantic-ui-react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import Application from "./components/Application";
+import Status from "./components/Status";
+import logo from "./assets/middleburg-school.png";
 
-function App() {
+const APPLICATION = "application";
+const STATUS = "status";
+
+export default function App() {
+  const [activeItem, setActiveItem] = useState(APPLICATION);
+
+  const handleItemClick = (e, { name }) => {
+    setActiveItem(name);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <Router>
+        <Image src={logo} style={{ margin: "auto" }} />
+        <Menu>
+          <Link to="/application">
+            <Menu.Item
+              name={APPLICATION}
+              active={activeItem === APPLICATION}
+              onClick={handleItemClick}
+            />
+          </Link>
+          <Link to="/status">
+            <Menu.Item
+              name={STATUS}
+              active={activeItem === STATUS}
+              onClick={handleItemClick}
+            />
+          </Link>
+        </Menu>
+        <Route path="/application" component={Application} />
+        <Route path="/status" component={Status} />
+      </Router>
+    </Container>
   );
 }
-
-export default App;
